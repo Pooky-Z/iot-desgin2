@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+        
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/web-3.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/chart.css')}}">
+    <style>
+        .current a {
+            color: #000;
+            background: #47bde1;
+        }
+    </style>
+    <script src="static/js/echarts.min.js"></script>
+    <script src="static/js/jquery-1.11.0.min.js"></script>
+    <script src="static/js/main.js"></script>
+    <link rel="stylesheet" href="static/css/main.css">
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script type="text/javascript" src="static/js/jquery.restable.min.js"></script>
+    <link rel="stylesheet" href="static/css/jquery.restable.min.css">
+    <title>WAK-Home</title>
+</head>
+
+<body>
+
+
+<ul class="userMenu">
+    <li class="current" id="center"><a href="#">管理界面</a></li>
+    
+    <!--
+    <li><a href="#">事件分析</a></li>
+    <li><a href="#">报表统计</a></li>
+    -->
+</ul>
+<div id="content">
+    <div id="div1">
+        {% block div1 %}
+        {% endblock %}
+    </div>
+    <div id="div2">
+        {% block div2 %}
+        {% endblock %}
+    </div>
+</div>
+
+</body>
+<script>
+    (function () {
+        $(".userMenu").on("click", "li", function (event) {
+            var pathn, i;
+            switch (event.currentTarget.getAttribute('id')) {
+                case "traffic":
+                    pathn = "user_traffic.html";
+                    i = 1;
+                    break;
+                case "account":
+                    pathn = "user_account.html";
+                    i = 2;
+                    break;
+                case "analysis":
+                    pathn = "user_analysis.html";
+                    i = 3;
+                    break;
+				case "analysis1":
+                    pathn = "user_analysis1.html";
+                    i = 4;
+                    break;
+                default:
+                    pathn = "user_center.html";
+                    i = 0;
+                    break;
+            }
+            $("#content").load(pathn); //加载相对应的内容
+            $(".userMenu li").eq(i).addClass("current").siblings().removeClass("current"); //当前列表高亮
+        });
+        $("#content").load("user_center.html"); //加载相对应的内容
+    })();
+</script>
+</html>

@@ -1,0 +1,30 @@
+
+#content{
+    position: absolute;
+    left: 250px;
+    top: 30px;
+    width: 1080px;
+    height: 720px;
+}
+#div1{
+    border: rgb(221, 206, 206) solid 1px;
+    float: left;
+    width: 55%;
+    height: 90%;
+    margin-top: 5%;
+}
+#div2{
+    border: rgb(221, 206, 206) solid 1px;
+    float: left;
+    width: 42%;
+    height:90%;
+    margin-top: 5%;
+    margin-left: 2%;
+}
+#time{
+    display: none;
+}
+
+#count{
+    display: none;
+}

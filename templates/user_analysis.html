@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/echarts-all.js"></script>
+    <script src="js/excel.js"></script>
+	<script src="js/drawl.js"></script>
+    <style>
+        .main {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            $(".img1").hover(function () {
+                $(".img1").attr("src", "resource/export-2.png");
+            }, function () {
+                $(".img1").attr("src", "resource/export-1.png");
+            });
+        });
+    </script>
+
+
+<body>
+<div class="main">
+    <div class="heading1">
+        页面关系分析
+    </div>
+    <div style="width: 80px;height: 30px;float:right;margin-right: 100px;">
+        <img class="img1" src="resource/export-1.png" alt="" style="width: 100%;height: 100%;CURSOR: pointer"
+             onclick="tableToExcel()"></div>
+    <div class="section6">
+		<div class="heading2">
+            页面关系图：
+        </div>
+           <div style="padding:20px;width:100%;height:100%;"> 
+        <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+               <div id="main" style="width:500px;height:430px;margin-top: 10px;margin-left: 180px;">
+               </div>
+ </div>
+    </div>
+
+</div>
+</body>
+	  <script>
+  var myChart = echarts.init(document.getElementById('main'), 'macarons');
+  //创建Nodes
+  nodes=[
+                {category:0, name: '页面1', value : 10, label: '页面1\n（主要）'},
+                {category:1, name: '页面2',value : 2},
+                {category:2, name: '页面4',value : 3},
+                {category:2, name: '页面3',value : 3},
+	  			{category:2, name: '页面5',value : 3},
+	  			{category:2, name: '页面6',value : 3},
+            ],
+    //创建links
+            links=[
+                {source : '页面6', target : '页面1', weight : 1},
+                {source : '页面1', target : '页面6', weight : 2},
+                {source : '页面1', target : '页面3', weight : 1},
+                {source : '页面3', target : '页面2', weight : 2},
+                {source : '页面2', target : '页面3', weight : 2},
+                {source : '页面5', target : '页面2', weight : 3},
+                {source : '页面5', target : '页面3', weight : 1},
+                {source : '页面6', target : '页面4', weight : 1},
+            ]
+categoryArray=[{name:"核心页面"},{name:"重要页面"},{name:"普通页面"}]
+jsondata={"categories":categoryArray,"nodes":nodes,"links":links}  
+//数据格式为Json格式
+createGraph(myChart,jsondata)
+  </script>
+<script>
+    document.getElementById("total").innerHTML = 23333;
+</script>
+	
+	<script>
+    var chart1 = echarts.init(document.getElementById("chart1"));
+
+    // 指定图表的配置项和数据
+    var option = {
+
+        // 图例
+        legend: [{
+            selectedMode:true,             // 图例选择的模式，控制是否可以通过点击图例改变系列的显示状态。默认开启图例选择，可以设成 false 关闭。
+            top: '10%',
+            left: 'center',
+            textStyle: {                      // 图例的公用文本样式。
+                fontSize: 10,
+                color: '#000'
+            },
+            data: ["Android", "Win10"]
+        }],
+
+        // 提示框
+        tooltip: {
+            show: true,                 // 是否显示提示框
+            formatter: '{b} </br> 量{c} </br> 占比{d}%'      // 提示框显示内容,此处{b}表示各数据项名称，此项配置为默认显示项，{c}表示数据项的值，默认不显示，({d}%)表示数据项项占比，默认不显示。
+        },
+
+        // graphic 是原生图形元素组件。可以支持的图形元素包括：image, text, circle, sector, ring, polygon, polyline, rect, line, bezierCurve, arc, group,
+        graphic: {
+            type: 'text',               // [ default: image ]用 setOption 首次设定图形元素时必须指定。image, text, circle, sector, ring, polygon, polyline, rect, line, bezierCurve, arc, group,
+            top: 'center',              // 描述怎么根据父元素进行定位。top 和 bottom 只有一个可以生效。如果指定 top 或 bottom，则 shape 里的 y、cy 等定位属性不再生效。『父元素』是指：如果是顶层元素，父元素是 echarts 图表容器。如果是 group 的子元素，父元素就是 group 元素。
+            left: 'center',             // 同上
+            style: {
+                text: '操作系统',       // 文本块文字。可以使用 \n 来换行。[ default: '' ]
+                fill: '#000',           // 填充色。
+                fontSize: 12,           // 字体大小
+                fontWeight: 'bold'		// 文字字体的粗细，可选'normal'，'bold'，'bolder'，'lighter'
+            }
+        },
+
+        // 系列列表
+        series: [{
+            name: '圆环图系列名称',         // 系列名称
+            type: 'pie',                    // 系列类型
+            center:['50%','50%'],           // 饼图的中心（圆心）坐标，数组的第一项是横坐标，第二项是纵坐标。[ default: ['50%', '50%'] ]
+            radius: ['30%', '45%'],         // 饼图的半径，数组的第一项是内半径，第二项是外半径。[ default: [0, '75%'] ]
+            hoverAnimation: true,           // 是否开启 hover 在扇区上的放大动画效果。[ default: true ]
+            label: {                        // 饼图图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等.
+                normal: {
+                    show: true,             // 是否显示标签[ default: false ]
+                    position: 'outside',    // 标签的位置。'outside'饼图扇区外侧，通过视觉引导线连到相应的扇区。'inside','inner' 同 'inside',饼图扇区内部。'center'在饼图中心位置。
+                    formatter: '{b} : {c}件'  // 标签内容
+                }
+            },
+            labelLine: {                    // 标签的视觉引导线样式,在 label 位置 设置为'outside'的时候会显示视觉引导线。
+                normal: {
+                    show: true,             // 是否显示视觉引导线。
+                    length: 15,             // 在 label 位置 设置为'outside'的时候会显示视觉引导线。
+                    length2: 10,            // 视觉引导项第二段的长度。
+                    lineStyle: {            // 视觉引导线的样式
+                        //color: '#000',
+                        //width: 1
+                    }
+                }
+            },
+            data: [{"name":"Android","value":1},{"name":"Win10","value":2}]                      // 系列中的数据内容数组。
+        }]
+    };
+    // 使用刚指定的配置项和数据显示图表
+    chart1.setOption(option)
+</script>
+</html>
